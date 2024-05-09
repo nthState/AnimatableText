@@ -6,8 +6,16 @@ import SwiftUI
 
 public struct AnimatedTextAction {
 
-  init(_ string: String, animation: Animation? = nil, complete: (String) -> ()) {
+  public let string: String
 
+  init(_ string: String, animation: Animation? = nil, complete: (String) -> ()) {
+    self.string = string
   }
 
+}
+
+extension AnimatedTextAction: CustomDebugStringConvertible {
+  public var debugDescription: String {
+    "string: \(string)"
+  }
 }

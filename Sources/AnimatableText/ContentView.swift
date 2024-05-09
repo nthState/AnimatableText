@@ -4,7 +4,9 @@
 
 import SwiftUI
 
-struct ContentView {}
+struct ContentView {
+  let displayString = "Hello, World! Here's some big news for you, do you want to float away? or dive in the blue sea?"
+}
 
 extension ContentView: View {
 
@@ -13,15 +15,25 @@ extension ContentView: View {
   }
 
   private var content: some View {
-    AnimatableText("Hello, World!") {
+    AnimatableText(displayString) { string in
 
-      AnimatedTextAction("Hello", animation: nil) { value in
-
+      AnimatedTextAction("float", animation: nil) { value in
+        // If the text is float, I'd like the text to float up the screen
       }
 
-      AnimatedTextAction("W", animation: nil) { value in
-
+      AnimatedTextAction("big", animation: nil) { value in
+        // If the word is big, I'd like the text to grow in size
       }
+
+      AnimatedTextAction("blue", animation: nil) { value in
+        // If the word is blue, the text should turn blue
+      }
+
+      AnimatedTextAction("dive", animation: nil) { value in
+        // If I press on the word `dive` then what could happen?
+      }
+
+      let _ = print("End of actions")
     }
   }
 

@@ -19,7 +19,7 @@ struct GlyphView: View {
       .onAppear {
         withAnimation(
           .linear(duration: 1)
-          .delay(Double(glyph.id) )
+          .delay(Double(glyph.id) * 0.05)
         ) {
           opacity = 1
         }

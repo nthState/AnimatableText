@@ -9,8 +9,11 @@ struct AnimatableText {
   private let mutableAttributedString: NSMutableAttributedString
   private let glyphs: [Glyph]
   private var items: [AnimatedTextAction] = []
+  //private var callback: (() -> (NSAttributedString))?
 
-  public init(_ attributedString: NSAttributedString, @AnimatedTextContentBuilder innerContent: @escaping () -> [AnimatedTextAction]) {
+  public init(_ attributedString: NSAttributedString, @AnimatedTextContentBuilder innerContent: @escaping (NSAttributedString) -> [AnimatedTextAction]) {
+
+    print("---Init---")
 
     self.mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
 
@@ -20,9 +23,15 @@ struct AnimatableText {
     let size = self.mutableAttributedString.suggestedSize(for: 320)
     self.glyphs = self.mutableAttributedString.glyphPositions(size: size, indexes: [])
 
+    for item in innerContent(self.mutableAttributedString) {
+      print(item.debugDescription)
+    }
+    
+    print("Finalizer")
+    _ = innerContent(self.mutableAttributedString)
   }
 
-  public init(_ string: String, @AnimatedTextContentBuilder innerContent: @escaping () -> [AnimatedTextAction]) {
+  public init(_ string: String, @AnimatedTextContentBuilder innerContent: @escaping (NSAttributedString) -> [AnimatedTextAction]) {
     self.init(NSAttributedString(string: string), innerContent: innerContent)
   }
 }
