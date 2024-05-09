@@ -5,31 +5,41 @@
 import SwiftUI
 
 struct GlyphView: View {
-
-    let glyph: Glyph
-
-    var body: some View {
-        Text(glyph.glyph)
-            .font(font)
-            .fixedSize()
-            .frame(width: glyph.box.width, height: glyph.box.height)
-            .position(glyph.box.origin)
-    }
-
-    var font: Font {
-        guard let presentation = glyph.presentation else {
-            return Font(glyph.font)
+  
+  @State var opacity: Double = 0
+  let glyph: Glyph
+  
+  var body: some View {
+    Text(glyph.glyph)
+      .font(font)
+      .opacity(opacity)
+      .fixedSize()
+      .frame(width: glyph.box.width, height: glyph.box.height)
+      .position(glyph.box.origin)
+      .onAppear {
+        withAnimation(
+          .linear(duration: 1)
+          .delay(Double(glyph.id) )
+        ) {
+          opacity = 1
         }
-
-        switch presentation {
-        case .emphasized:
-            return Font(glyph.font).italic()
-        case .stronglyEmphasized:
-            return Font(glyph.font).bold()
-        default:
-            return Font(glyph.font)
-        }
-
+      }
+  }
+  
+  var font: Font {
+    guard let presentation = glyph.presentation else {
+      return Font(glyph.font)
     }
-
+    
+    switch presentation {
+    case .emphasized:
+      return Font(glyph.font).italic()
+    case .stronglyEmphasized:
+      return Font(glyph.font).bold()
+    default:
+      return Font(glyph.font)
+    }
+    
+  }
+  
 }
