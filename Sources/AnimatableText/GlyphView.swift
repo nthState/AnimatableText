@@ -15,6 +15,7 @@ struct GlyphView: View {
       .opacity(opacity)
       .fixedSize()
       .frame(width: glyph.box.width, height: glyph.box.height)
+      .foregroundColor(Color(uiColor: glyph.color))
       .position(glyph.box.origin)
       .onAppear {
         withAnimation(
