@@ -46,9 +46,9 @@ extension ContentView: View {
   }
 
   private var animatedTextView: some View {
-    AnimatableText(displayString) { string in
+    AnimatableText(displayString) { mutableAttributedString in
 
-      AnimatedTextAction(pattern: #"float"#) { mutableAttributedString, matches in
+      AnimatedTextAction(pattern: #"float"#) {  matches in
         // If the text is float, I'd like the text to float up the screen
 
         // Question: How could one make the Glyphs accessible via animation in a detacted state?
@@ -68,7 +68,7 @@ extension ContentView: View {
         }
       }
 
-      AnimatedTextAction(pattern: #"big"#) { mutableAttributedString, matches in
+      AnimatedTextAction(pattern: #"big"#) {  matches in
         // If the word is big, I'd like the text to grow in size
 
         if on {
@@ -81,20 +81,22 @@ extension ContentView: View {
 
       }
 
-      AnimatedTextAction(pattern: #"blue"#) { mutableAttributedString, matches in
+      AnimatedTextAction(pattern: #"blue"#) {  matches in
         // If the word is blue, the text should turn blue
 
         if on {
           matches.forEach { result in
             mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.blue, range: result.range)
-            mutableAttributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 40), range: result.range)
+            mutableAttributedString.addAttribute(.font, value: UIFont.italicSystemFont(ofSize: 40), range: result.range)
           }
         }
 
       }
 
-      AnimatedTextAction(pattern: #"dive"#) { mutableAttributedString, matches in
+      AnimatedTextAction(pattern: #"dive"#) { matches in
         // If I press on the word `dive` then what could happen?
+
+        // Question: Is there a way I can use Animations?
 
         if on {
           matches.forEach { result in

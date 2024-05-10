@@ -7,9 +7,9 @@ import SwiftUI
 public struct AnimatedTextAction {
 
   public let pattern: String
-  public var action: (NSMutableAttributedString, [NSTextCheckingResult]) -> ()
+  public var action: ([NSTextCheckingResult]) -> ()
 
-  init(pattern: String, action: @escaping (NSMutableAttributedString, [NSTextCheckingResult]) -> ()) {
+  init(pattern: String, action: @escaping ([NSTextCheckingResult]) -> ()) {
     self.pattern = pattern
     self.action = action
   }
