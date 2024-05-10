@@ -6,7 +6,7 @@ import SwiftUI
 
 struct ContentView {
 
-  let displayString = "Hello, World! Here's some big news for you, do you want to float away? or dive in the blue sea? "
+  let displayString = "Hello, World! Here's some big news for you, do you want to float away? or dive in the blue sea? Is there fiction in science or sci-fi?"
 
   @State var on: Bool = true
   @State var isFloating: Bool = false
