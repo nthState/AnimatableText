@@ -51,6 +51,9 @@ extension ContentView: View {
       AnimatedTextAction(pattern: #"float"#) { mutableAttributedString, matches in
         // If the text is float, I'd like the text to float up the screen
 
+        // Question: How could one make the Glyphs accessible via animation in a detacted state?
+        // So that if they grew, they would not affect the rest of the text?
+
         if isFloating {
           matches.forEach { result in
 
