@@ -6,12 +6,11 @@ import SwiftUI
 
 struct AnimatableText {
   
-  private let mutableAttributedString: NSMutableAttributedString
+  private var mutableAttributedString: NSMutableAttributedString
   private let glyphs: [Glyph]
   private var items: [AnimatedTextAction] = []
-  //private var callback: (() -> (NSAttributedString))?
 
-  public init(_ attributedString: NSAttributedString, @AnimatedTextContentBuilder innerContent: @escaping (NSAttributedString) -> [AnimatedTextAction]) {
+  public init(_ attributedString: NSAttributedString, @AnimatedTextContentBuilder innerContent: @escaping (NSMutableAttributedString) -> [AnimatedTextAction]) {
 
     print("---Init---")
 
@@ -19,19 +18,30 @@ struct AnimatableText {
 
     let range = NSRange(location: 0, length: attributedString.length)
     self.mutableAttributedString.addAttribute(kCTLigatureAttributeName as NSAttributedString.Key, value: 0, range: range)
+    self.mutableAttributedString.addAttribute(.font, value: UIFont.systemFont(ofSize: 20), range: range)
+    self.mutableAttributedString.addAttribute(.foregroundColor, value: UIColor.red, range: range)
+
+
+
+    for item in innerContent(self.mutableAttributedString) {
+
+      guard let matches = self.mutableAttributedString.matches(pattern: item.pattern) else {
+        print("Skipping, no matches found")
+        continue
+      }
+
+      item.action(self.mutableAttributedString, matches)
+    }
 
     let size = self.mutableAttributedString.suggestedSize(for: 320)
     self.glyphs = self.mutableAttributedString.glyphPositions(size: size, indexes: [])
 
-    for item in innerContent(self.mutableAttributedString) {
-      print(item.debugDescription)
-    }
+    //print("mutableAttributedString: \(self.mutableAttributedString)")
     
-    print("Finalizer")
     _ = innerContent(self.mutableAttributedString)
   }
 
-  public init(_ string: String, @AnimatedTextContentBuilder innerContent: @escaping (NSAttributedString) -> [AnimatedTextAction]) {
+  public init(_ string: String, @AnimatedTextContentBuilder innerContent: @escaping (NSMutableAttributedString) -> [AnimatedTextAction]) {
     self.init(NSAttributedString(string: string), innerContent: innerContent)
   }
 }

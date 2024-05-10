@@ -6,16 +6,18 @@ import SwiftUI
 
 public struct AnimatedTextAction {
 
-  public let string: String
+  public let pattern: String
+  public var action: (NSMutableAttributedString, [NSTextCheckingResult]) -> ()
 
-  init(_ string: String, animation: Animation? = nil, complete: (String) -> ()) {
-    self.string = string
+  init(pattern: String, action: @escaping (NSMutableAttributedString, [NSTextCheckingResult]) -> ()) {
+    self.pattern = pattern
+    self.action = action
   }
 
 }
 
 extension AnimatedTextAction: CustomDebugStringConvertible {
   public var debugDescription: String {
-    "string: \(string)"
+    "pattern: \(pattern)"
   }
 }
