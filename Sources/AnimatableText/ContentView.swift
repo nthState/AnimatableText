@@ -9,6 +9,7 @@ struct ContentView {
   let displayString = "Hello, World! Here's some big news for you, do you want to float away? or dive in the blue sea? "
 
   @State var on: Bool = true
+  @State var isFloating: Bool = false
 
   private func toggle() {
     withAnimation {
@@ -16,8 +17,10 @@ struct ContentView {
     }
   }
 
-  private func float() {
-
+  private func toggleFloat() {
+    withAnimation {
+      isFloating.toggle()
+    }
   }
 
 }
@@ -47,8 +50,19 @@ extension ContentView: View {
 
       AnimatedTextAction(pattern: #"float"#) { mutableAttributedString, matches in
         // If the text is float, I'd like the text to float up the screen
-        // Question: How do I attach data to the glyph?
 
+        if isFloating {
+          matches.forEach { result in
+
+            var yPos: CGFloat = 100
+            for part in result.range.location...result.range.location+result.range.length {
+              let r = NSRange(location: part, length: 1)
+              mutableAttributedString.addAttribute(.offset, value: CGSize(width: 0, height: yPos), range: r)
+              yPos += 10
+            }
+            //mutableAttributedString.addAttribute(.offset, value: CGSize(width: 0, height: 100), range: result.range)
+          }
+        }
       }
 
       AnimatedTextAction(pattern: #"big"#) { mutableAttributedString, matches in
@@ -102,7 +116,7 @@ extension ContentView: View {
   }
 
   private var floatButton: some View {
-    Button(action: float, label: {
+    Button(action: toggleFloat, label: {
       Text("Float")
     })
   }

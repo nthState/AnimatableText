@@ -104,6 +104,11 @@ extension NSMutableAttributedString {
 
         let glyphOpticalRects = glyphs.opticalBounds(for: font)
 
+        var offset = CGSize(width: 0, height: 0)
+        if let offsetValue = attributes["offset"] as? CGSize {
+          offset = offsetValue
+        }
+
         for k in 0..<glyphPositions.count {
           let point = glyphPositions[k]
           let optical = glyphOpticalRects[k]
@@ -129,7 +134,7 @@ extension NSMutableAttributedString {
                             color: color,
                             appearanceDelay: 0,
                             link: link,
-                            offset: CGSize(width: 0, height: 0))
+                            offset: offset)
 
           output.append(glyph)
 
